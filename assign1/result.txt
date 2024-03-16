@@ -20,3 +20,45 @@ for size in "${input_sizes[@]}"; do
     avg_time=$(echo "$avg_time / $num_runs" | bc -l)
     echo "Size: $size, Average Time: $avg_time seconds"
 done
+
+# OpenMP naive program
+echo "OpenMP Naive Program"
+for size in "${input_sizes[@]}"; do
+    avg_time=0
+    for ((i=1; i<=num_runs; i++)); do
+        start_time=$(date +%s.%N)
+        ./openmp_naive_program "$size" "$size" > /dev/null
+        end_time=$(date +%s.%N)
+        run_time=$(echo "$end_time - $start_time" | bc -l)
+        avg_time=$(echo "$avg_time + $run_time" | bc -l)
+    done
+    avg_time=$(echo "$avg_time / $num_runs" | bc -l)
+    echo "Size: $size, Average Time: $avg_time seconds"
+done
+
+# MPI naive program
+echo "MPI Naive Program"
+for size in "${input_sizes[@]}"; do
+    avg_time=0
+    for ((i=1; i<=num_runs; i++)); do
+        start_time=$(date +%s.%N)
+        mpirun -np 4 ./mpi_naive_program "$size" "$size" > /dev/null
+        end_time=$(date +%s.%N)
+        run_time=$(echo "$end_time - $start_time" | bc -l)
+        avg_time=$(echo "$avg_time + $run_time" | bc -l)
+    done
+    avg_time=$(echo "$avg_time / $num_runs" | bc -l)
+    echo "Size: $size, Average Time: $avg_time seconds"
+done
+
+# OpenMP tiled program
+echo "OpenMP Tiled Program"
+for size in "${input_sizes[@]}"; do
+    avg_time=0
+    for ((i=1; i<=num_runs; i++)); do
+        start_time=$(date +%s.%N)
+        ./openmp_tiled_program "$size" "$size" > /dev/null
+        end_time=$(date +%s.%N)
+        run_time=$(echo "$end_time - $start_time" | bc -l)
+        avg_time=$(echo "$avg_time + $run_time" | bc -l)
+    done
