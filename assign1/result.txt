@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Array of input sizes
+input_sizes=(64 128 256 512 1024 2048 4096 8192 16384)
+
+# Number of runs for averaging
+num_runs=10
+
+# Sequential program
+echo "Sequential Program"
+for size in "${input_sizes[@]}"; do
+    avg_time=0
+    for ((i=1; i<=num_runs; i++)); do
+        start_time=$(date +%s.%N)
+        ./sequential_program "$size" "$size" > /dev/null
+        end_time=$(date +%s.%N)
+        run_time=$(echo "$end_time - $start_time" | bc -l)
+        avg_time=$(echo "$avg_time + $run_time" | bc -l)
+    done
+    avg_time=$(echo "$avg_time / $num_runs" | bc -l)
+    echo "Size: $size, Average Time: $avg_time seconds"
+done
