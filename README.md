@@ -6,7 +6,7 @@
 
 
 ## Assingment 1 ##
-Status: **Done but not marked**
+Status: **Completed but not marked**
 //--Change the status to complete once your assignment is completed and you think it can be marked. --//
 
 ## Assignment 2 ##
